@@ -1,0 +1,8 @@
+
+# editor
+.idea/
+.vscode/
+
+# structure
+logs/*.log
+logs/*.pid
