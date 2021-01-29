@@ -22,7 +22,7 @@
     ...                       # see help for more operations
 
 ## Directory Structure
-    api             # lua files
+    app             # lua files
     conf            # openresty nginx conf
     docs            # doument
     logs            # detail running
