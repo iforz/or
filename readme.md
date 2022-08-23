@@ -1,36 +1,23 @@
+## Install
+
+> [openresty](http://openresty.org/en/linux-packages.html)
+
 ## Description
-    OpenResty, server, demo, nginx+lua
 
-## Literature
-    1. [openresty](https://openresty.org/cn/getting-started.html)
+    OpenResty/1.21.4.1
 
-## System Environment
-    linux     (ubuntu/WSL)
-    openresty (last)
-    editor    (intelliJ IDEA / vscode)
+## Purpose
+
+    微服务架设，基本的编程能力
 
 ## Playing
-    # start nginx in openresty
-    sudo source ./shell/nginx.sh
 
-    # look 127.0.0.1
-    nginx -p `pwd`/ -c conf/nginx.conf 
-    
     # use shell
-    ./shell/or.sh start       # running on the server
-    ./shell/or.sh reload      # reload server
-    ...                       # see help for more operations
+    ./or start           # running on the server
+    ...                  # see help for more operations
 
-## Directory Structure
-    app             # lua files
-    conf            # openresty nginx conf
-    docs            # doument
-    logs            # detail running
-    shell           # simple script
-    test            # test files
-
-## Copyright
-    @author iry.ink
+## Info
+    @author reinit.cn
     @email  relifedango@gmail.com
     @qq:    1069513856
 

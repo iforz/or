@@ -6,3 +6,7 @@
 # structure
 logs/*.log
 logs/*.pid
+
+# security
+conf/nginx/conf.d/*.conf
+.env

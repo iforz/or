@@ -1,0 +1,123 @@
+#!/bin/bash
+# --------------------
+# @author reinit.cn
+# @email relifedango@gmail.com
+#
+
+# 更新 nginx 为 openResty 的 nginx 环境
+export PATH=/usr/local/openresty/nginx/sbin:$PATH
+echo $(nginx -v)
+
+# Env conf ===================================
+    env_path_project=$(cd `dirname $0`;pwd)   # 项目路径
+    env_path_root=$env_path_project/          # 主程序路径
+    env_conf_pro="conf/nginx/nginx.conf"            # nginx pro conf
+    env_conf_dev="conf/nginx/nginx.dev.conf"        # nginx dev conf
+    env_text_cmdLogsPrefix="command: success "   # cmd日志前缀
+
+# ============================================
+
+# Command event ==============================
+    cmdStartPro() {
+        echo $env_text_cmdLogsPrefix"Pro"
+        nginx -p ${env_path_root}/ -c ${env_conf_pro}
+    }
+    cmdStartDev() {
+        echo $env_text_cmdLogsPrefix"Dev"
+        nginx -p ${env_path_root}/ -c ${env_conf_dev}
+    }
+    cmdStopPro() {
+        echo $env_text_cmdLogsPrefix"Stop"
+        nginx -p ${env_path_root}/ -c ${env_conf_pro} -s stop
+    }
+    cmdStopDev() {
+        echo $env_text_cmdLogsPrefix"Stop"
+        nginx -p ${env_path_root}/ -c ${env_conf_dev} -s stop
+    }
+    cmdReloadPro() {
+        echo $env_text_cmdLogsPrefix"Reload"
+        nginx -p ${env_path_root}/ -c ${env_conf_pro} -s reload
+    }
+    cmdReloadDev() {
+        echo $env_text_cmdLogsPrefix"Reload"
+        nginx -p ${env_path_root}/ -c ${env_conf_dev} -s reload
+    }
+    cmdKillNginx() {
+        echo $env_text_cmdLogsPrefix"Kill Nginx"
+        killall -9 nginx
+    }
+    cmdNginx() {
+        echo $env_text_cmdLogsPrefix"Nginx"
+    }
+# ============================================
+
+# Handle event ===============================
+    # 帮助类函数
+    HandleHelp() {
+        echo "Script contains commands:"
+        echo "*** start     : Start Nginx server and default running production environment."
+        echo "***       -pro: Execute production environment."
+        echo "***       -dev: Execute development environment."
+        echo "*** stop      : Stop Nginx server and default running production environment."
+        echo "***       -pro: Execute production environment."
+        echo "***       -dev: Execute development environment."
+        echo "*** reload    : Reload Nginx server and default running production environment."
+        echo "***       -pro: Execute production environment."
+        echo "***       -dev: Execute development environment."
+        echo "*** nginx     : Setting nginx environment & show version"
+        echo "*** kill      : Kill nginx process."
+    }
+
+    # 脚本启动类函数
+    HandleStart() {
+        case $1 in
+            -pro | --pro)   cmdStartPro;;
+            -dev | --dev)   cmdStartDev;;
+            *)              cmdStartPro;;
+        esac
+    }
+
+    # 停止
+    HandleStop() {
+        case $1 in
+            -pro | --pro)   cmdStopPro;;
+            -dev | --dev)   cmdStopDev;;
+            *)              cmdStopPro;;
+        esac
+    }
+
+    # 重启脚本
+    HandleReload() {
+        case $1 in
+            -pro | --pro)   cmdReloadPro;;
+            -dev | --dev)   cmdReloadDev;;
+            *)              cmdReloadPro;;
+        esac
+    }
+
+    # 杀掉一些进程
+    HandleKill() {
+        case $1 in
+            -nginx | --nginx)   cmdKillNginx;;
+            *)                  cmdKillNginx;;
+        esac
+    }
+
+    # nginx相关内容
+    HandleNginx() {
+        case $1 in
+            *)                  cmdNginx;;
+        esac
+    }
+# ============================================
+
+Target=$1
+Option=$2
+case $Target in
+    start)          HandleStart $Option;;
+    stop)           HandleStop $Option;;
+    reload)         HandleReload $Option;;
+    kill)           HandleKill $Option;;
+    nginx)          HandleNginx $Option;;
+    *)              HandleHelp;;
+esac
